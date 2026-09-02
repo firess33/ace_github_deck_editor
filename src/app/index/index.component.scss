@@ -1,0 +1,1143 @@
+.all{
+   width:100%;
+  height:100%;
+  display:flex;
+   background-color: rgb(64, 151, 216);
+   overflow:hidden;
+}
+
+
+.left{
+
+  width:24%;
+  height:100%;
+  display: flex;
+  flex-direction: column; /* 改為垂直排列：Header 在上，Content 在下 */
+ background-color: rgb(64, 151, 216);
+  padding-left:0.3%;
+ padding-right:0.2%;
+  // justify-content: center;
+  align-items: center;
+}
+.right{
+ width:78%;
+   height:100%;
+ display: flex;
+  flex-direction: column; /* 改為垂直排列：Header 在上，Content 在下 */
+ background-color: antiquewhite;
+//  z-index:98;
+}
+
+.right_top{
+height:20%;
+ width:100%;
+    // flex-direction: column; /* 改為垂直排列：Header 在上，Content 在下 */
+  display: flex;
+}
+.right_top_part1{
+    width:40%;
+  display: flex;
+ background-color: rgb(205, 193, 199);
+ padding:0.5%;
+ flex-wrap: wrap;
+ gap:2%;
+ justify-content: center;
+  align-items: center;
+  // font-weight: bold ;
+}
+.highlight{
+    box-sizing: border-box;
+  position: relative;
+  width:100%;
+  height:100%;
+  z-index: 1000;
+  /* 用一個超級巨大的陰影當作遮罩 (擴散範圍設為 2000px 或更高) */
+  /* 語法：box-shadow: [x] [y] [模糊] [擴散] [顏色] */
+  // box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.7);
+    /* 背景漸層：製造由上到下的金屬光澤 */
+      border: 3px solid rgb(219, 2, 45);
+
+  // background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 50%, #d1d1d1 51%, #bdbdbd 100%);
+  // box-shadow:
+  //   inset 0 1px 0 rgba(255, 255, 255, 0.8), /* 內部上緣高光 */
+  //   0 1px 2px rgba(0, 0, 0, 0.2);           /* 外部細微陰影 */
+  // transition: all 0.1s; /* 讓點擊效果更滑順 */
+  // outline: none;
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+
+}
+.ultra_mask{
+  /* 使用 fixed 確保鎖死在螢幕畫面上 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;  /* 螢幕全寬 */
+  height: 100vh; /* 螢幕全高 */
+
+  background-color: rgba(0, 0, 0, 0.7); /* 半透明黑 */
+opacity:70%;
+  /* 層級設定：確保它在所有一般元素之上 */
+  z-index: 900;
+
+  /* 確保滑鼠點擊被攔截，點不到後面的按鈕 */
+  pointer-events: auto;
+}
+
+.right_top_part2{
+  /* 確保這一個 是父層才是真正負責滾動的 讓cardpool2捲動 */
+  height: 91%;
+    width:60%;
+  display: flex;
+  flex-wrap: wrap;
+ background-color: rgb(84, 216, 64);
+ /* 設定間距：第一個值是上下，第二個值是左右 (或寫一個值代表全部) */
+  gap:1.5% 0.5% ;
+   padding:0.5%;
+  justify-content: center;
+  align-items: center;
+  // font-weight: bold ;
+
+//    overflow:visible;
+// z-index:10000;
+}
+
+
+.right_middle{
+  height:80%;
+  display: flex;
+   background-color: rgb(61, 49, 56);
+//  background-color: rgb(155, 64, 216);
+}
+.right_middle_part1{
+      width:70%;
+  display: flex;
+   flex-direction: column; /* 改為垂直排列：Header 在上，Content 在下 */
+ background-color: rgb(84, 216, 64);
+border: 6px solid blue;
+}
+
+///卡持
+.right_middle_part2{
+  width:30%;
+  display: flex;
+  flex-direction: column; /* 改為垂直排列：Header 在上，Content 在下 */
+
+//  background-color: rgb(216, 196, 64);
+
+}
+.card_pic_in_pool{
+  width:22.5%;
+  // height:18.5%;
+  height:18%;
+  // aspect-ratio: 3/3.3; /* 這是常見卡牌比例 */
+// height:18%;
+//  background-color: rgb(216, 64, 155);
+}
+.card_pic_in_middle{
+   box-sizing: border-box;
+  //  width:87px;
+  //  height:85px;
+
+  width:10%;
+height:25%;
+// height:95%;
+/* 不要用 height: 25%，改用比例或固定高度 */
+  // aspect-ratio: 3/2.6; /* 這是常見卡牌比例 */
+//  background-color: rgb(216, 64, 155);
+}
+.card_pic_in_extra_deck{
+  width:6.6%;
+height:100%;
+/* 不要用 height: 25%，改用比例或固定高度 */
+  // aspect-ratio: 4/3; /* 這是常見卡牌比例 */
+//  background-color: rgb(216, 64, 155);
+}
+
+.bar{
+   width:100%;
+   height:6.5%;
+ background-color: rgb(146, 143, 145);
+ box-sizing: border-box;
+ padding:1%;
+padding-bottom:1.5%;
+display: flex;
+  // justify-content: center;
+  align-items: center;
+
+      box-sizing: border-box;
+ padding:0.5%;
+}
+
+.main_deck2{
+       width:100%;
+   height:59%;
+ background-color: rgb(61, 49, 56);
+  display: grid;
+
+  /* 橫向 10 格 */
+  grid-template-columns: repeat(10, 1fr);
+  /* 縱向強制 4 列，每列平分容器高度 (1fr) */
+/* 設定「前四列」的高度 */
+  grid-template-rows: repeat(4, 25%);
+
+  /* 設定「如果超過四列，後續每一列」的高度也必須是 25% */
+  grid-auto-rows: 25%;
+  gap: 5px;
+
+  overflow-y:auto;
+
+    /* 1. 針對 Chrome, Safari, Edge, Opera (Webkit 引擎) */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* 2. 針對 Firefox (Gecko 引擎) */
+    scrollbar-width: none;
+
+    /* 3. 針對舊版 IE 和 Edge */
+    -ms-overflow-style: none;
+}
+.card2{width: 100%;
+  width: 100%;
+  height: 100%; /* 填滿 Grid 給它的格子 */
+  object-fit: contain; /* 確保圖片不變形地縮放 */
+  // aspect-ratio: 2 / 3; /* 高度會自動根據寬度計算，非常精準 */
+
+}
+.main_deck{
+//    box-sizing: border-box;
+// padding:1%;
+     width:100%;
+   height:59%;
+ background-color: rgb(61, 49, 56);
+ display:flex;
+ flex-wrap: wrap;
+ /* 關鍵屬性：讓行與行之間緊貼，不瓜分剩餘空間 */
+    align-content: flex-start;
+    overflow-y:auto;
+// justify-content: flex-start; /* 必須靠左，不要分散 *
+
+
+    /* 1. 針對 Chrome, Safari, Edge, Opera (Webkit 引擎) */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* 2. 針對 Firefox (Gecko 引擎) */
+    scrollbar-width: none;
+
+    /* 3. 針對舊版 IE 和 Edge */
+    -ms-overflow-style: none;
+
+      box-sizing: border-box;
+ padding:0.5%;
+}
+.extra_deck{
+  width:100%;
+   height:11%;
+ background-color: rgb(61, 49, 56);
+  display:flex;
+ flex-wrap: wrap;
+    box-sizing: border-box;
+ padding:0.5%;
+}
+
+.side_deck{     width:100%;
+   height:11%;
+ background-color: rgb(61, 49, 56);
+  display:flex;
+ flex-wrap: wrap;
+     box-sizing: border-box;
+ padding:0.5%;
+}
+.emphasize{
+border: 6px solid rgb(219, 2, 45);
+}
+
+.masksss{
+  /* 關鍵定位 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* 背景與透明度 */
+  background-color: rgba(0, 0, 0, 0.5); /* 黑色，50% 透明 */
+
+  /* 確保在最上層 */
+  z-index: 98;
+// 瀏覽器視窗 (Viewport)。
+// 捲動行為	會隨頁面捲動。如果頁面很長，遮罩會被捲上去。	鎖定在螢幕。不管怎麼捲，遮罩永遠釘在畫面上。
+  /* 讓遮罩內的內容（如 Loading 圖標）居中 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selector {
+// display:inline-block;
+                 width:47%;
+                //  max-width: 70%;
+                 height:32%;
+display:flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+
+  cursor: pointer;
+}
+// 他裡面的這html:
+.selector select{
+cursor: pointer;
+ padding: 3px 3px;
+  /* 背景漸層：製造由上到下的金屬光澤 */
+  background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 50%, #d1d1d1 51%, #bdbdbd 100%);
+  /* 邊框設定 */
+  border: 3px solid #160f0f;
+  border-radius: 2px; /* 稍微帶一點點圓角，但不宜過多 */
+  /* 立體感：外陰影 + 內白色高光 */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8), /* 內部上緣高光 */
+    0 1px 2px rgba(0, 0, 0, 0.2);           /* 外部細微陰影 */
+  transition: all 0.1s; /* 讓點擊效果更滑順 */
+  outline: none;
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+  // text-align:center;
+overflow:auto;
+                 width:100%;
+                //  max-width: 70%;
+                 height:100%;
+
+
+}
+
+
+
+
+///最新的 mid righest
+.middd_and_right{
+       background-color: rgb(61, 49, 56);
+ width:86%;
+height:100%;
+  display: flex;
+  flex-wrap:wrap;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+}
+
+//牌組名稱區
+.mid_1{
+  position:relative;
+   width:36%;
+height:18%;
+       background-color: rgb(61, 49, 56);
+
+// left:14.5%;
+  display: flex;
+  flex-wrap:wrap;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+  box-sizing: border-box;
+// border:2px solid rgb(2, 2, 2);
+gap:0% 1%;
+}
+//牌組區
+.mid_2{
+    position:relative;
+   width:69%;
+height:82%;
+// padding:1%;
+
+
+
+// left:14.5%;
+  display: flex;
+  flex-direction: column;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+// border:2.5px #160f0f solid;
+border:2.5px rgb(8, 8, 8) solid;
+// box-sizing: border-box;
+}
+.rightest{
+ width:27%;
+height:100%;
+    flex-wrap:wrap;
+  display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+    align-items: center;
+       background-color: rgb(61, 49, 56);
+}
+
+
+
+
+
+//filter區
+.right_1{
+position:relative;
+
+ width:64%;
+height:18%;
+  display: flex;
+    flex-wrap:wrap;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  // align-items: center;
+
+  /* --- 加入這一行 --- */
+  align-content: center;
+  /* ------------------ */
+ gap:2% 1.5%;
+
+ box-sizing: border-box;
+}
+
+
+.icon{
+
+}
+.show{
+position: absolute;
+  visibility: hidden;
+  opacity: 0;
+// background: rgb(148, 142, 142);
+background: rgb(230, 226, 226);
+  /* 你自定義的定位 (例如：顯示在圖示右上方) */
+  bottom: 100%;
+  left: 72%;
+  // transform: translateX(-50%);
+
+  /* 樣式設定 */
+  width: 25%;
+
+  border: 1px solid #060606;
+  padding: 3px;
+  // box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 100;
+}
+/* 3. 當容器被 Hover 時，顯示彈出層 */
+.icon:hover .show {
+  visibility: visible;
+  opacity: 1;
+}
+
+//卡池
+.right_2{
+position:relative;
+
+ width:30%;
+
+height:82%;
+  display: flex;
+    flex-direction: column;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+  border:2.5px #160f0f solid;
+  // box-sizing: border-box;
+}
+
+.left_pic{
+  position:relative;
+top:1%;
+  width:69%;
+  height:40%;
+}
+
+.left_text{
+  top:1%;
+    position:relative;
+  width:100%;
+  height:100%;  //was57%
+    //  align-content: flex-start;
+       background-color: rgba(182, 176, 176, 0.5); /* 黑色，50% 透明 */
+
+  overflow-y: auto;
+}
+
+.text_inside{
+      position:relative;
+      top:5%;
+padding:3%;
+  font-size:16px;
+
+}
+
+
+
+.zone_card_pool{
+  /* 確保這一個 是父層才是真正負責滾動的 讓cardpool2捲動 */
+  height: 100%;
+    width:100%;
+  display: flex;
+  overflow-y: auto;
+  // background-color: rgb(216, 64, 155);
+  border:2.5px #160f0f solid;
+}
+.card_pool2{
+  width: 100%;
+  /* 移除 height: 91%，讓內容撐開，或者確保父層有 overflow */
+  min-height: 100%;
+  display: flex;
+  // background-color: rgb(216, 64, 155);
+  flex-wrap: wrap;
+  align-content: flex-start;
+  /* 如果你的捲動是靠父層 .right_middle_part2，這裡就設為 visible */
+  overflow-y: visible;
+  gap:1.5% 2.5%;
+
+// justify-content: space-between;
+}
+
+
+
+/* 當卡片被抓起來時，強制維持它的比例 */
+// .cdk-drag-preview {
+//   // box-sizing: border-box;
+//   /* 這裡建議給它一個跟原本一樣的 px 寬度，或是用 transform scale */
+//  width: 90px !important;  /* 根據你的卡片比例調整 */
+//   height: 120px !important;
+//   // box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* 增加拖拽感 */
+// }
+/* 這是拖拽時跟著滑鼠跑的那個影子 */
+// .cdk-drag-preview {
+//   // box-sizing: border-box;
+//   // border-radius: 4px;
+//   // box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+//   //             0 8px 10px 1px rgba(0, 0, 0, 0.14),
+//   //             0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+//   /* 強制設定預覽圖的大小，確保從 Pool 或 Deck 拉出來都長一樣 */
+//   width: 70px !important;  /* 根據你的卡片比例調整 */
+//   height: 85px !important;
+
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: transparent;
+// }
+
+// .cdk-drag-preview img,.cdk-drag-placeholder img  {
+//   width: 100%;
+//   height: 100%;
+//   // width:87px;
+//   // height:85px;
+// display: none
+//   // object-fit: contain;
+// }
+
+
+
+
+
+
+
+
+
+/* 2. 進入目標區：那個佔位符 (Placeholder) */
+/* 如果你想讓它在目標區域看起來跟拖曳時一樣，就給它一樣的寬高 */
+// .cdk-drag-placeholder {
+//   width: 90px !important;
+//   height: 120px !important;
+//   background: rgba(255, 255, 255, 0.2); /* 稍微透明點，讓使用者知道這是預計落點 */
+//   // border: 2px dashed #ccc;
+//   // border-radius: 4px;
+//   // transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+// }
+
+
+
+
+
+////preview ok
+::ng-deep .cdk-drag-preview {
+  // 如果你寫了 !important：CSS 會強行蓋掉 JS 算好的數值。如果你的 CSS 寫 20px，它就縮成 20px；如果你寫 10%，它就去參考視窗寬度而暴走。
+  // 官方會自動計算
+
+//  width:6% ;
+//   height: 10%;
+  // object-fit: contain; /* 確保圖片比例不變形 */
+  // width: 73px;
+  // height: 95px; //好像這用哪個參數都差不多= =
+  pointer-events: none !important; /* 核心邏輯：滑鼠穿透 */
+  box-sizing: border-box;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* 增加陰影更有拖拽感 */
+  z-index: 1000 !important;
+    pointer-events: none !important; /* 讓感應穿透影子 */
+  // width: calc(9% - 2px) !important;
+  // height: calc(height_you_set - 2px) !important;
+  background: rgba(255, 255, 255, 0.1); /* 給一個淡淡的底色，讓你確認坑位在那 */
+  overflow-y: hidden;
+
+}
+.cdk-drag-preview img {
+  // width: 50%;
+  // height: 50% !important;
+  // object-fit: contain; /* 確保圖片比例不變形 */
+
+  box-sizing: border-box;
+
+}
+// .main_deck .cdk-drag-preview {
+//   width: 8%;
+//   height: 98%;
+//   pointer-events: none !important; /* 核心邏輯：滑鼠穿透 */
+//   box-sizing: border-box;
+//   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* 增加陰影更有拖拽感 */
+//   z-index: 1000 !important;
+//   // width: calc(9% - 2px) !important;
+//   // height: calc(height_you_set - 2px) !important;
+//   background: rgba(255, 255, 255, 0.1); /* 給一個淡淡的底色，讓你確認坑位在那 */
+//   overflow-y: hidden;
+// }
+/* 目的地容器：MainDeck */
+.main_deck_row .cdk-drag-placeholder {
+  /* 1. 最重要：禁止被壓縮 */
+  // flex-shrink: 0 !important;
+  // /* 同時鎖死三個維度，不准伸展、不准壓縮、基礎寬度固定 */
+  // flex: 0 0 10% !important;
+
+  // display: block;
+/* 2. 寬度必須跟原本的卡片格子一模一樣 */
+  /* 如果原本是 10%，這裡也要 10% */
+  width: 10% !important;
+  min-width: 10% !important;
+  height:100% !important;
+  box-sizing: border-box;
+
+  // position:relative;
+  // top:100%;
+  // left:-5%;
+  // width: 73px;
+  //   height:85px;
+  // width: 10% !important;
+  // height: 100% !important;
+  // background: rgba(255, 255, 255, 0.2);
+
+    // width: 9% !important;
+    // height:25%;
+
+// background: rgba(231, 7, 104, 0.784); /* 給個顏色確認它在哪 */ gd這
+
+
+
+  // flex-shrink: 0; /* 防止在 flex 佈局中縮小 */
+  //  flex: 0 0 9% !important;
+
+
+
+
+
+
+
+  //     width:87px;
+  // height:85px;
+    // width:100%;
+    // height:100%;
+
+    /* 核心：防止被 flex 壓縮或擠掉 */
+
+
+
+    // aspect-ratio: 4/3;
+    /* 這裡可以加一點點 animation，讓坑位出現時不會太突兀 */
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+// transform: translate(7%,7% ) !important;
+
+    /* 讓它隱形，但不消失 */
+    // background: transparent !important;
+    // opacity: 0 !important;
+    // /* 雖然佔位置，但縮小到幾乎看不見 */
+    // width: 0px !important;
+    // height: 0px !important;
+    // margin: 0 !important;
+    // padding: 0 !important;
+    // overflow: hidden;
+    // opacity: 0;
+}
+
+
+.extra_deck .cdk-drag-placeholder {
+    width: 6% ;
+    height:100%;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    box-sizing: border-box;
+}
+.side_deck .cdk-drag-placeholder {
+  box-sizing: border-box;
+    width:6%;
+    height:100%;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+
+
+
+
+
+
+
+// .card_pool2 .cdk-drag-placeholder {
+//     width:24% !important;
+//   height:18.5% !important;
+// opacity: 1 !important;        /* 強制不透明，讓它看起來牌還在 */
+//     visibility: visible !important; /* 強制可見 */
+//     background: none !important;    /* 移除任何背景 */
+// }
+.stay_placeholder {
+    width:24% !important;
+  height:18.5% !important;
+opacity: 1 !important;        /* 強制不透明，讓它看起來牌還在 */
+    visibility: visible !important; /* 強制可見 */
+    background: none !important;    /* 移除任何背景 */
+    display: block !important;     /* 保持物理體積，不要讓後面的牌遞補上來 */
+}
+
+
+.button{
+  /* 尺寸與文字 */
+  box-sizing: border-box;
+  padding: 3px 3px;
+width:23%;
+height:32%;
+
+  /* 背景漸層：製造由上到下的金屬光澤 */
+  background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 50%, #d1d1d1 51%, #bdbdbd 100%);
+  /* 邊框設定 */
+  border: 3px solid #160f0f;
+  border-radius: 2px; /* 稍微帶一點點圓角，但不宜過多 */
+  /* 立體感：外陰影 + 內白色高光 */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8), /* 內部上緣高光 */
+    0 1px 2px rgba(0, 0, 0, 0.2);           /* 外部細微陰影 */
+  transition: all 0.1s; /* 讓點擊效果更滑順 */
+  outline: none;
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+}
+
+.rename{
+  /* 尺寸與文字 */
+  box-sizing: border-box;
+  padding: 3px 3px;
+// width:50%;
+// height:33%;
+
+  /* 背景漸層：製造由上到下的金屬光澤 */
+  background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 50%, #d1d1d1 51%, #bdbdbd 100%);
+  /* 邊框設定 */
+  border: 3px solid #160f0f;
+  border-radius: 2px; /* 稍微帶一點點圓角，但不宜過多 */
+  /* 立體感：外陰影 + 內白色高光 */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8), /* 內部上緣高光 */
+    0 1px 2px rgba(0, 0, 0, 0.2);           /* 外部細微陰影 */
+  transition: all 0.1s; /* 讓點擊效果更滑順 */
+  outline: none;
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+}
+
+.user{
+width:27%;
+height:31%;
+
+  /* 背景漸層：製造由上到下的金屬光澤 */
+  background: linear-gradient(to bottom, #ffffff 0%, #e0e0e0 50%, #d1d1d1 51%, #bdbdbd 100%);
+  /* 邊框設定 */
+  border: 3px solid #160f0f;
+  border-radius: 2px; /* 稍微帶一點點圓角，但不宜過多 */
+  /* 立體感：外陰影 + 內白色高光 */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8), /* 內部上緣高光 */
+    0 1px 2px rgba(0, 0, 0, 0.2);           /* 外部細微陰影 */
+  transition: all 0.1s; /* 讓點擊效果更滑順 */
+  outline: none;
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+}
+
+
+//was紫色
+.right_top_part2_button{
+   box-sizing: border-box;
+width: 75%;
+height:100%;
+  // padding: 3px 3px;
+
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+
+  // cursor: pointer;
+}
+
+
+.right_top_part2_box_type_1{
+  /* 尺寸與文字 */
+     box-sizing: border-box;
+  padding: 3px 3px;
+width:23%;
+height:33%;
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+    background-color: rgb(109, 32, 154);
+
+background: linear-gradient(
+    to bottom,
+    #9871c1 0%,   /* 頂部：極淺紫（高光） */
+    #d1a3ff 35%,  /* 中上：中等淺紫 */
+    //  #834eb8 51%  /* 底部：深紫 */
+
+    #572a84 100%  /* 底部：深紫 */
+  );
+  /* 邊框設定 */
+  border: 3px solid #160f0f;
+  border-radius: 2px; /* 稍微帶一點點圓角，但不宜過多 */
+  /* 立體感：外陰影 + 內白色高光 */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8), /* 內部上緣高光 */
+    0 1px 2px rgba(0, 0, 0, 0.2);           /* 外部細微陰影 */
+  transition: all 0.1s; /* 讓點擊效果更滑順 */
+  outline: none;
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+}
+.right_top_part2_box_type_2{
+     box-sizing: border-box;
+    padding: 3px 3px;
+width:23%;
+height:33%;
+display: flex;
+
+
+ background: linear-gradient(
+    to bottom,
+    #9871c1 0%,   /* 頂部：極淺紫（高光） */
+    #d1a3ff 35%,  /* 中上：中等淺紫 */
+    //  #834eb8 51%  /* 底部：深紫 */
+
+    #572a84 100%  /* 底部：深紫 */
+  );
+  /* 邊框設定 */
+  border: 3px solid #160f0f;
+  border-radius: 2px; /* 稍微帶一點點圓角，但不宜過多 */
+  /* 立體感：外陰影 + 內白色高光 */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8), /* 內部上緣高光 */
+    0 1px 2px rgba(0, 0, 0, 0.2);           /* 外部細微陰影 */
+  transition: all 0.1s; /* 讓點擊效果更滑順 */
+  outline: none;
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+}
+/* 針對所有文字輸入框 */
+input[type="text"] {
+  // font: 20px; /* 直接指定像素 */
+  width:100px;
+font-size: 25px;
+
+}
+input[type="number"] {
+  // font-size: 5px; /* 直接指定像素 */
+  width:65px;
+  -moz-appearance: textfield;
+}
+/* 針對 Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+
+
+
+
+input.lv[type="number"] {
+  width: 35px;
+  height:75%;
+}
+// select {
+//   width: 150px;         /* 設定寬度 */
+
+//   // font-size: 18px;     /* 設定文字大小 */
+//   // padding: 5px 10px;   /* 增加內距，讓選單看起來不擠 */
+//   // box-sizing: border-box; /* 確保 padding 不會撐大總寬度 */
+// }
+
+.general_green{
+   display: flex;
+  align-items: center;    /* 垂直居中 */
+  justify-content: center; /* 水平居中 (如果需要的話) */
+
+  background-color: #1ba14a; /* 淺色底 */
+    // background-color: #000100; /* 淺色底 */
+  color: #D7CCC8;           /* 深色文字 */
+  // border: 2px solid #A1887F; /* 邊框線 */
+  padding: 7px 7px; ///???/*按鈕內部上下 左右 padding 決定按鈕寬度，最省事 */
+  font-weight: bold;
+  cursor: pointer;
+font-size: 21px;
+position: relative;
+width:130px;
+height:55px;
+}
+
+
+
+
+
+
+
+
+
+
+
+// .main_deck_row {
+//   display: flex;
+//   flex-direction: row;
+//   min-height: 110px; /* 跟卡片高度一致 */
+//   margin-bottom: 8px;
+//   background: rgba(255, 255, 255, 0.02); /* 稍微看得到行區域 */
+//   border-radius: 4px;
+// }
+
+// .card_pic_in_deck, .card_skeleton {
+//   width: 70px;  /* 調整成你卡片的寬度 */
+//   height: 100px;
+//   margin: 2px;
+//   border-radius: 4px;
+// }
+
+/* 骨架屏的樣式：淡淡的虛線框 */
+// .card_skeleton {
+//   // border: 1px dashed rgba(255, 255, 255, 0.1);
+//   // background: rgba(255, 255, 255, 0.05);
+//   // /* 讓滑鼠點不到 skeleton，確保不會干擾 cdkDropList 的感應 */
+//   // pointer-events: none;
+
+//     box-sizing: border-box;
+//   width:10%;
+// height:25%;
+// }
+
+.main_deck_row {
+  position: relative; /* 建立座標基準 */
+  display: flex;
+  flex-direction: row;
+  // flex-wrap: nowrap !important; /* 不換行 */
+  // width: auto !important;      /* 讓寬度可以被內容撐開，不要限制在 100% */
+
+    align-items: center;    /* 垂直居中 */
+  // justify-content: center; /* 水平居中 (如果需要的話) */
+  width: 100%;
+  height: 24.5%; /* 每一行佔總高度的四分之一 */
+  justify-content: flex-start;
+overflow: visible !important; /* 讓第 11 張暫時凸出去，不要擠扁大家 */
+}
+.card_pic_in_row {
+  flex: 0 0 10%; /* 不伸展、不縮小、基準就是 10% 必須的原始大小 drag自動維護nice  初始大小基準.部伸展或縮小nice拉  awesome perfect..*/
+  width: 10% ; /////別用important cdk pewview才會好看 且這邊我設置的也是初始的大小ok   ok她會自動維護 繼承用這 Ok
+
+  height: 100%;          /* 填滿行的高度 */
+  // flex-shrink: 0;
+  // border: 2px solid lime !important; /* 亮綠色邊框 */
+  box-sizing: border-box;
+}
+// .main-deck-preview-box {
+//   width: 5%;
+//   height: 12%;
+//   border: 2px solid lime;  /* 方便你測試有沒有抓到 */
+// }
+// ::ng-deep .main-deck-preview-box img {
+//   width: 100% !important;
+//   height: 100% !important;
+//   object-fit: fill !important;
+// }
+
+
+.left_down_icon{
+ box-sizing: border-box;
+width: 14%;
+height:20%;
+  padding: 3px 3px;
+
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+  // background-color:rgb(139, 130, 130);
+border: 2px solid;
+}
+.left_down_button{
+   box-sizing: border-box;
+width: 30%;
+height:20%;
+  padding: 3px 3px;
+
+display: flex;
+  /* 這是控制「主軸」（水平）的對齊 */
+  justify-content: center;
+  /* 這是控制「交叉軸」（垂直）的對齊 */
+  align-items: center;
+}
+
+
+.button99{
+   cursor: pointer;
+}
+
+
+/* 只要是 <button> 標籤，滑鼠移上去都會變手指 */
+button:hover {
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+/* deck-dropdown.component.scss */
+.alls {
+  position: relative;
+  width: 47%;
+  font-family: sans-serif;
+
+  .deck_name_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: #007bff;
+    }
+
+    .arrow {
+      font-size: 10px;
+      transition: transform 0.2s;
+
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .big_box {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 100;
+
+    /* 限制高度大約剛好容納 6 個 row，超過則出現垂直捲軸 */
+    max-height: 270px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+
+    .deck_row {
+      padding: 10px 12px;
+      background-color: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+      flex-shrink: 0;
+
+      &:hover {
+        background-color: #e9ecef;
+      }
+
+      &.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #0056b3;
+      }
+    }
+  }
+}
+.new_name_zone_css {
+  position: relative;
+
+}
+
+
+
+.new_name_zone_css:hover::after{
+/* 把 content 後面的引號內容改成你要顯示的文字 */
+  content: "keyin new name &click rename";
+position: absolute;
+  top: 100%;       /* 讓白框跑到格子正下方 */
+  left: 0;
+  width: 100%;     /* 變成跟輸入框一樣寬的長條形 */
+  background-color: #ffffff; /* 白框背景 */
+  color: #333333;  /* 文字顏色 */
+  border: 1px solid #cccccc; /* 灰色邊框 */
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 加上一點淡淡的陰影更有質感 */
+  z-index: 10;
+  pointer-events: none;
+  pointer-events: none;
+  box-sizing: border-box; /* 確保寬度不會因為 padding 撐破 */
+}

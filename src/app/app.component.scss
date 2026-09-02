@@ -1,0 +1,26 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+  .title99{
+    // margin:auto auto;
+      // background-color: #b8a7d2; /* 預設深木頭色 */
+
+  background-color: #d2c7a7; /* 預設深木頭色 */
+  font-size: 30px;
+font-weight: bold;
+  height:100%;
+  width:30%;
+text-align: center;
+display: flex;
+  align-items: center;    /* 垂直居中 */
+  justify-content: center; /* 水平居中 (如果需要的話) */
+  }

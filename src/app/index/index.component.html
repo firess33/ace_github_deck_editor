@@ -1,0 +1,695 @@
+<router-outlet></router-outlet>
+
+@if (rename_boolean) {
+    <div class="ultra_mask" ></div>
+  }
+
+<div class="all">
+
+
+  <div class="left">
+
+    <div class="left_pic">
+
+      <img [src]="hover_pic ?  hover_pic + '.jpg' : '/pics/00000000.jpg'"
+        style="width: 100%; height: 100%; ">
+
+
+
+    </div>
+
+    <div class="left_text">
+      <div class="text_inside">
+
+        @if(hover_card_type=="monster"){
+            @if(language=="en"){{{hover_card_name}} <br><br>}
+           @if(language=="cn"){ {{hover_card_cn_name}}  }
+              tier:{{hover_card_tier}}<br><br>
+ <!-- <div style="position: relative; left: 20%; ">
+        tier:{{hover_card_tier}}
+  </div> -->
+
+        {{get_en_cn_text(hover_card_type)}}/{{get_en_cn_text(hover_sub_type)}}
+        <br>
+        level:{{hover_race_lv}}/{{get_en_cn_text(hover_attribute)}}/{{get_en_cn_text(hover_race)}}
+        <br>
+        ATK:&nbsp;&nbsp;{{hover_race_atk}}/&nbsp;DEF:&nbsp;&nbsp;{{hover_race_def}}
+
+
+
+
+
+        @if(language=="en"){     <br><br>{{hover_text}}}
+         @if(language=="cn"){
+        <br><br>
+        {{hover_card_cn_text}}
+        }
+        <br><br>
+        <!-- cardcode:{{hover_card_code}} -->
+      }
+
+        @if(hover_card_type=='magic'||hover_card_type=="trap"){
+           @if(language=="en"){{{hover_card_name}} <br><br>}
+           @if(language=="cn"){ {{hover_card_cn_name}} <br><br> }
+               {{get_en_cn_text(hover_card_type)}}/{{get_en_cn_text(hover_sub_type)}}
+
+         @if(language=="en"){     <br><br>{{hover_text}}}
+         @if(language=="cn"){
+        <br><br>
+        {{hover_card_cn_text}}
+        }
+
+                <br><br>
+        <!-- cardcode:{{hover_card_code}} -->
+        }
+
+      </div>
+    </div>
+
+<!--
+    <div style="display: flex;">
+<div class="button99"
+[style.background]="language === 'en' ? 'yellow' : 'linear-gradient(to bottom, #ffffff 0%, #e0e0e0 50%, #d1d1d1 51%, #bdbdbd 100%)'"
+(click)="language_a('en')">
+EN
+</div>
+<div class="button99"
+[style.background]="language === 'cn' ? 'yellow' : 'linear-gradient(to bottom, #ffffff 0%, #e0e0e0 50%, #d1d1d1 51%, #bdbdbd 100%)'"
+(click)="language_a('cn')">
+CN
+</div>
+ </div> -->
+
+
+
+
+  <div style="display: flex; width:100%; height:18%">
+    <!-- <div class="left_down_icon" (click)="change_language()">
+        <img src="/z2jpg.jpg"  style="width:100%; height:100%;">
+</div>
+
+<div class="left_down_icon" (click)="change_language()">
+        <img src="/z1.png" style="width:100%; height:100%;" >
+</div> -->
+
+
+ <button class="general_green" routerLink="/index">首頁 <span class="arrow"></span></button>
+     <button class="general_green" routerLink="/lobby">大廳 <span class="arrow"></span></button>
+</div>
+
+
+  </div>
+
+
+
+
+  <div class="middd_and_right">
+      <div class="mid_1">
+
+
+    <!-- <button class="button" style="width:35%; cursor: default;"  >DECK_ZONE</button> -->
+<!-- <input type="text" class="button" style="width: 96%; cursor: text;" title="keyin new name &click rename"> -->
+
+
+
+<div class="new_name_zone_css" >
+  <input type="text" class="button" style="width: 96%; cursor: text;">
+</div>
+
+
+
+    <!-- <div class="user">
+            {{nickname}}
+           </div> -->
+
+           <!-- <span>User: {{ username }}</span> -->
+               <!-- <span> {{ username }}</span> -->
+          <!-- {{nickname}}
+           </div> -->
+        <!-- <button (click)="onLogout()">Quit</button> -->
+
+
+
+
+<!-- deck-dropdown.component.html -->
+<div class="alls">
+  <!-- 一開始顯示的單一長方形框（預設呈現第一筆） -->
+  <div class="deck_name_box" (click)="open_selector()">
+    <span>{{ current_deck }}</span>
+    <span class="arrow" [class.open]="selector_on">▼</span>
+  </div>
+
+  <!-- 點擊後才彈出的更大框：容納多個 row，預設顯示 6 個的高度，超過自動滾動 -->
+  <div class="big_box" *ngIf="selector_on">
+    <div
+      *ngFor="let deck of my_decks"
+      class="deck_row"
+      [class.active]="current_deck === deck"
+      (click)="select_select_deck(deck, $event)">
+      {{ deck }}
+    </div>
+  </div>
+</div>
+
+
+
+
+        <!-- @if (rename_boolean) {
+    <button class="button"  [class.highlight]="rename_boolean"  (click)="rename_front_end_save()">
+   確認
+    </button>
+  } @else {
+    <button class="button" (click)="rename_step1()">
+      修改名稱
+    </button>
+  } -->
+ <button  class="button"  (click)="save_deck( selected_deck_id, selected_deck_name,email,selected_deck_defaulted,mainDeck,fusionDeck,sideDeck)">儲存</button>
+<button  class="button"  (click)="export_deck()">export</button>
+
+        <button class="button" (click)="new_new_deck()">創建牌組</button>
+                        <button class="button" (click)="copy_copy_deck()" >複製牌組</button>
+                                                <button class="button" (click)="rename_rename(new_entered_name)" >rename</button>
+        <button class="button"  (click)="delete_delete_deck()">刪除</button>
+
+    <!-- <button class="button" (click)="set_as_default_deck()">設為預設</button> -->
+
+</div>
+
+<!-- /mid1 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <button class="button" style="width: 10%; "  >import </button>
+        <button class="button" style="width:10%;"  >export </button> -->
+
+
+<!--
+///goods:
+        @if (rename_boolean) {
+          <input type="text"
+    [(ngModel)]="editing_name"
+    [readonly]="!rename_boolean"
+style="width:45.5%; height:33%;"
+
+    #rename
+
+    [class.highlight]="rename_boolean"
+  >}
+          @else{<span  class="rename" style="width:45.5%; height:33%;" >{{selected_deck_name}}</span>} -->
+
+
+      <div class="right_1">
+
+
+
+
+
+
+
+
+<div class="right_top_part2_box_type_1">
+          卡名:
+          <input class="right_top_part2_button" [(ngModel)]="filter.name">
+          </div>
+
+
+
+<div class="right_top_part2_box_type_1">
+          效果:
+          <input class="right_top_part2_button" [(ngModel)]="filter.description" >
+</div>
+
+
+
+
+<div class="right_top_part2_box_type_1" style="width:47%; height:33%">卡池篩選區</div>
+
+
+
+
+
+
+          <div class="right_top_part2_box_type_1">
+          種類:
+          <select  class="right_top_part2_button" [(ngModel)]="filter.card_type" (change)="on_card_type_change()">
+            <option value="">全部種類(All)</option>
+            <option value="monster">怪獸卡</option>
+            <option value="magic">魔法卡</option>
+            <option value="trap">陷阱卡</option>
+          </select>
+</div>
+
+
+@if(filter.card_type=="magic"){
+  <div class="right_top_part2_box_type_1">
+     子類:<!-- sub type: &nbsp; -->
+          <select  class="right_top_part2_button" [(ngModel)]="filter.sub_type" [disabled]="filter.card_type !== 'magic'">
+            <option value="">魔法卡(All)</option>
+            <option value="normal_spell">Normal (通常)</option>
+            <option value="quick-play">Quick-Play (速攻)</option>
+            <option value="equip">Equip (裝備)</option>
+            <option value="continuous_spell">Continuous (永續)</option>
+            <option value="ritual">Ritual (儀式)</option>
+            <option value="field">Field (場地)</option>
+          </select>
+</div>
+}
+@if(filter.card_type=="trap"){
+  <div class="right_top_part2_box_type_1" >
+     子類:<!-- sub type: &nbsp; -->
+          <select  class="right_top_part2_button" [(ngModel)]="filter.sub_type" [disabled]="filter.card_type !== 'trap'">
+            <option value="">陷阱卡(All)</option>
+            <option value="normal_trap">Normal (通常)</option>
+            <option value="continuous_trap">Continuous (永續)</option>
+            <option value="counter">Counter (反擊)</option>
+          </select>
+</div>
+}
+@if(filter.card_type=="monster" ||filter.card_type=="" ){
+  <div class="right_top_part2_box_type_1"  >
+            子類:<!-- sub type: &nbsp; -->
+          <select  class="right_top_part2_button" [(ngModel)]="filter.sub_type" [disabled]="filter.card_type !== 'monster'">
+            <option value="">怪獸卡(All)</option>
+            <option value="normal">Normal (通常)</option>
+            <option value="effect">Effect (效果)</option>
+            <option value="ritual">Ritual (儀式)</option>
+            <option value="fusion">Fusion (融合)</option>
+          </select>
+</div>
+}
+
+ <!-- style="width:13%; height:33%;" -->
+  <div class="right_top_part2_box_type_1" >
+            <label> LV :</label>
+            <input class="lv"  type="number" [(ngModel)]="filter.levelMin">~
+            <input   class="lv" type="number" [(ngModel)]="filter.levelMax">
+          </div>
+
+             <!-- <button class="right_top_part2_box_type_1" style="width:11%; height:33%;" (click)="more()">更多</button> -->
+   <button class="right_top_part2_box_type_1"  (click)="clearFilters()">清空篩選</button>
+
+
+
+
+  <div class="right_top_part2_box_type_1">
+          <label>屬性:</label>
+          <select  class="right_top_part2_button" [(ngModel)]="filter.attribute" [disabled]="filter.card_type !== 'monster'">
+            <option value="">全部屬性 (All)</option>
+            <option value="light">LIGHT (光)</option>
+            <option value="dark">DARK (暗)</option>
+            <option value="earth">EARTH (地)</option>
+            <option value="water">WATER (水)</option>
+            <option value="fire">FIRE (火)</option>
+            <option value="wind">WIND (風)</option>
+            <option value="divine">DIVINE (神)</option>
+          </select>
+</div>
+
+
+  <div class="right_top_part2_box_type_1">
+
+          <label>種族:</label>
+          <select  class="right_top_part2_button" [(ngModel)]="filter.race" [disabled]="filter.card_type !== 'monster'">
+            <option value="">全部種族(All)</option>
+               <option value="warrior">Warrior (戰士族)</option>
+            <option value="spellcaster">Spellcaster (魔法使族)</option>
+            <option value="dragon">Dragon (龍族)</option>
+                        <option value="fairy">Fairy (天使族)</option>
+            <option value="fiend">Fiend (惡魔族)</option>
+                             <option value="zombie">Zombie (不死族)</option>
+
+<option value="machine">Machine (機械族)</option>
+     <option value="beast">Beast (獸族)</option>
+            <option value="beast-warrior">Beast-Warrior (獸戰士族)</option>
+   <option value="winged beast">Winged Beast (鳥獸族)</option>
+
+                               <option value="rock">Rock (岩石族)</option>
+            <option value="insect">Insect (昆蟲族)</option>
+            <option value="plant">Plant (植物族)</option>
+                       <option value="reptile">Reptile (爬蟲類族)</option>
+   <option value="dinosaur">Dinosaur (恐龍族)</option>
+
+             <option value="divine-beast">Divine-Beast (幻神獸族)</option>
+
+               <option value="aqua">Aqua (水族)</option>
+            <option value="fish">Fish (魚族)</option>
+                      <option value="sea serpent">Sea Serpent (海龍族)</option>
+
+            <option value="pyro">Pyro (炎族)</option>
+            <option value="thunder">Thunder (雷族)</option>
+
+
+
+          </select>
+
+</div>
+
+
+
+
+ <div class="right_top_part2_box_type_2">
+            <label>ATK:</label>
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.atkMin">  &nbsp; ~ &nbsp;
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.atkMax">
+          </div>
+   <div class="right_top_part2_box_type_2">
+            <label>DEF:</label>
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.defMin">&nbsp; ~ &nbsp;
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.defMax">
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+          <!-- <div class="right_top_part2_box_type_2">
+            <label>Tier:</label>
+            <input type="number" [(ngModel)]="filter.tierMin"> -
+            <input type="number" [(ngModel)]="filter.tierMax">
+          </div> -->
+
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="mid_2">
+
+        <div class="bar">
+          <span>主牌組: {{ mainDeck.length }} / 60</span>
+          <!-- <span [class.over-limit]="totalTier > 100">Total Tier: {{ totalTier }} / 100</span> -->
+          <button  style="width: 80px; height: 25px; margin-left:1%" (click)=" usual_sort(mainDeck,true)">排序 </button>
+              <button  style="width: 80px; height: 25px; margin-left:1%" (click)="clear('main_deck')">清空 </button>
+
+
+                  <div class="icon" style=" margin-left:63%;">
+    <mat-icon style="color:white; "
+    matTooltip="這是卡牌效果的詳細說明"
+    matTooltipPosition="above">
+    help_outline
+  </mat-icon>
+
+  <div class="show">
+   <!-- <span>排序順序:<br>種類>子類><br>屬性>種族><br>>等級>攻擊力 </span> -->
+ <span>卡池點擊左鍵加入牌組，<br>右鍵加入備牌區，<br>支援左鍵拖曳卡牌 <br><br> 牌組區右鍵移除卡牌</span>
+  </div>
+</div>
+
+
+        </div>
+
+
+
+
+<!--
+        <div class="main_deck">
+<div *ngFor="let row of [0, 1, 2, 3]"
+     class="main_deck_row"
+     cdkDropList
+     [id]="'main_row_' + row"
+     [cdkDropListData]="sections[row]"
+     cdkDropListOrientation="horizontal"
+     [cdkDropListConnectedTo]="allConnectedIds"
+     (cdkDropListDropped)="drop($event)">
+
+  <div *ngFor="let cardCode of sections[row]; let i = index;"
+       class="card_pic_in_middle"
+       cdkDrag
+       [cdkDragData]="cardCode">
+    <img [src]="'/pics/' + cardCode + '.jpg'">
+    <div *cdkDragPlaceholder class="cdk-drag-placeholder"></div>
+  </div>
+</div>
+</div> -->
+<!-- ///maindeck -->
+
+
+      <div class="main_deck">
+  @for (row of [0, 1, 2, 3, 4, 5]; let rowIndex = $index; track row) {
+
+    <div class="main_deck_row"
+         cdkDropList
+         [id]="'main_deck_' + row"
+         [cdkDropListData]="sections[row]" cdkDropListOrientation="horizontal"
+         [cdkDropListConnectedTo]="[ 'extra_deck', 'side_deck', 'main_deck_0', 'main_deck_1', 'main_deck_2', 'main_deck_3', 'main_deck_4', 'main_deck_5']"
+         (cdkDropListDropped)="drop($event)">
+
+         <!-- ///////這邊裡面存的是卡號拉 -->
+      @for (cardcode of sections[row]; let cardIndex = $index; track cardcode) {
+
+        <div class="card_pic_in_row"
+             cdkDrag
+             [cdkDragData]="cardcode"
+             (contextmenu)="$event.preventDefault(); remove_from_main_deck(rowIndex * 10 + cardIndex)"
+             (mouseenter)="hover(true, cardcode)"
+
+ (cdkDragEntered)="onEntered()"
+             (cdkDragExited)="onExited()"
+             (cdkDragEnded)="onDragEnded(rowIndex * 10 + cardIndex, mainDeck)"
+             >
+
+    <img [src]="get_skin_card(null,cardcode)"   style="width: 100%; height: 100%; ">
+<!-- <img [src]="'/pics/' +cardcode+ '.jpg'" style="width: 100%; height: 100%;"> -->
+<!-- <img [src]= "get_skin_card(null,'cardcode')"   style="width: 100%; height: 100%;"> -->
+
+
+
+<!-- ///穿透ok -->
+  <!-- <div *cdkDragPreview class="main-deck-preview-box">
+    <img [src]="'/pics/' +cardcode+ '.jpg'">
+  </div> -->
+          <!-- <img [src]="'/pics/' +cardcode+ '.jpg'" style="width: 100%; height: 100%;"> -->
+
+          <div *cdkDragPlaceholder class="cdk-drag-placeholder"></div>
+        </div>
+      }
+
+
+      <!-- @for (grid of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; track $index) {
+        @if ($index >= sections[row].length) {
+          <div class="card_skeleton"></div>
+        }
+      } -->
+
+    </div>  }
+</div>
+<!-- ///maindeck -->
+
+
+
+
+      <!-- <div class="main_deck"
+          cdkDropList id="main_deck" [cdkDropListData]="mainDeck" cdkDropListOrientation="horizontal"
+            [cdkDropListConnectedTo]="['extra_deck', 'side_deck','main_deck']" (cdkDropListDropped)="drop($event)"
+            >
+          <div *ngFor="let cardCode of mainDeck; let i = index; "  class="card_pic_in_middle"
+            (contextmenu)="$event.preventDefault(); remove_from_main_deck(i)" (mouseenter)="hover(true,cardCode)"
+            cdkDrag [cdkDragData]="cardCode"
+            (cdkDragEntered)="onEntered()" (cdkDragExited)="onExited()"
+             (cdkDragEnded)="onDragEnded(i, mainDeck)"
+            >
+             <img [src]="'/pics/' + cardCode + '.jpg'" style="width: 100%; height: 100%; ">
+        <img [src]="'/pics/' + cardCode + '.jpg'" style="width:90px; height: 120px; ">
+             <div *cdkDragPlaceholder class="cdk-drag-placeholder"></div>
+          </div>
+
+
+        </div> -->
+
+
+
+
+        <div class="bar">
+          <span>融合牌組: {{ fusionDeck.length }} / 15</span>
+          <!-- <span [class.over-limit]="totalTier > 100">Total Tier: {{ totalTier }} / 100</span> -->
+           <button  style="width: 80px; height: 25px; margin-left:1% " (click)="clear('extra_deck')">清空 </button>
+        </div>
+
+
+
+        <div class="extra_deck"
+        cdkDropList id="extra_deck" [cdkDropListData]="fusionDeck"  cdkDropListOrientation="horizontal"
+            [cdkDropListConnectedTo]="['extra_deck', 'side_deck','main_deck_0', 'main_deck_1', 'main_deck_2', 'main_deck_3', 'main_deck_4', 'main_deck_5']"(cdkDropListDropped)="drop($event)"
+
+
+
+        >
+          <div *ngFor="let cardCode of fusionDeck; let i = index" class="card_pic_in_extra_deck"
+            (contextmenu)="$event.preventDefault(); remove_from_extra_deck(i)" (mouseenter)="hover(true,cardCode)"
+
+             cdkDrag [cdkDragData]="cardCode"
+             (cdkDragEnded)="onDragEnded(i, fusionDeck)"
+  (cdkDragEntered)="onEntered()" (cdkDragExited)="onExited()">
+
+      <img [src]="get_skin_card(null,cardCode)"   style="width: 100%; height: 100%; ">
+            <!-- <img [src]="'/pics/' + cardCode + '.jpg'" style="width: 100%; height: 100%; "> -->
+            <!-- <span>{{ card.name }}</span> -->
+               <div *cdkDragPlaceholder class="cdk-drag-placeholder"></div>
+          </div>
+
+        </div>
+
+
+
+
+        <div class="bar">
+          <span>備&nbsp;&nbsp;&nbsp;&nbsp;牌 : {{sideDeck.length }} / 15</span>
+          <!-- <span [class.over-limit]="totalTier > 100">Total Tier: {{ totalTier }} / 100</span> -->
+                      <button  style="width: 80px; height: 25px; margin-left:1%" (click)="clear('side_deck')">清空 </button>
+        </div>
+
+
+        <div class="side_deck"
+            cdkDropList id="side_deck" [cdkDropListData]="sideDeck" cdkDropListOrientation="horizontal"
+            [cdkDropListConnectedTo]="['extra_deck', 'side_deck','main_deck','main_deck_0', 'main_deck_1', 'main_deck_2', 'main_deck_3', 'main_deck_4', 'main_deck_5']"(cdkDropListDropped)="drop($event)"
+
+        >
+          <div *ngFor="let cardCode of sideDeck; let i = index" class="card_pic_in_extra_deck"
+            (contextmenu)="$event.preventDefault(); remove_from_side_deck(i)" (mouseenter)="hover(true,cardCode)"
+             cdkDrag [cdkDragData]="cardCode"
+             (cdkDragEnded)="onDragEnded(i, sideDeck)"
+   (cdkDragEntered)="onEntered()" (cdkDragExited)="onExited()">
+
+<img [src]="get_skin_card(null,cardCode)"   style="width: 100%; height: 100%; ">
+            <!-- <img [src]="'/pics/' + cardCode + '.jpg'" style="width: 100%; height: 100%; "> -->
+
+            <!-- <span class="tier-badge">{{ card.tier }}</span> -->
+               <div *cdkDragPlaceholder class="cdk-drag-placeholder"></div>
+          </div>
+
+        </div>
+      </div>
+      <!-- MID 2-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="right_2" >
+
+
+        <div class="bar">
+          <span>filtered pool:{{ filteredPool.length }}/2397</span>
+  <button  style="width: 65px; height: 25px; margin-left:1% " (click)="to_not_random()">排序 </button>
+    <button  style="width: 65px; height: 25px; margin-left:1% " (click)="go_random()">隨機  </button>
+
+    <div class="icon" style=" margin-left:0.5%;">
+    <mat-icon style="color:white; "
+    matTooltip="這是卡牌效果的詳細說明"
+    matTooltipPosition="above">
+    help_outline
+  </mat-icon>
+
+  <div class="show">
+   <!-- <span>排序順序:<br>種類>子類><br>屬性>種族><br>>等級>攻擊力 </span> -->
+ <span>排序順序:<br>種類>子類> <br>等級>攻擊力 </span>
+  </div>
+</div>
+
+        </div>
+
+
+
+
+
+
+<div class="zone_card_pool" (scroll)="onScroll($event)">
+<div class="card_pool2"
+cdkDropList id="card_pool"
+[cdkDropListData]="filteredPool" [cdkDropListConnectedTo]="['extra_deck', 'side_deck','main_deck','main_deck_0', 'main_deck_1', 'main_deck_2', 'main_deck_3', 'main_deck_4', 'main_deck_5']"
+[cdkDropListSortingDisabled]="true"
+>
+
+
+        @for (card of filteredPool| slice:0:displayLimit; track card.passcode) {
+        <div class="card_pic_in_pool" (click)="addToDeck(card)"
+        (contextmenu)="add_to_side_deck($event, card)"
+          (mouseenter)="hover_on_pool(true,card)"
+       cdkDrag [cdkDragData]="card"
+       >
+
+       <img [src]="get_skin_card(card)"  [alt]="card.name" style="width: 100%; height: 100%; ">
+
+          <!-- <img [src]="'/pics/' + card.passcode + '.jpg'" [alt]="card.name" style="width: 100%; height: 100%; "> -->
+          <!-- <span>{{ card.name }}</span> -->
+
+
+        </div>
+ <!-- // class="card_pic_in_pool" -->
+
+
+        } @empty {
+        <p>目前沒有符合條件的卡片...</p>
+        }
+
+</div>
+<!-- cardpool 小區 -->
+ </div>
+ <!-- zone_card_pool 小區 -->
+</div>
+<!-- right_2小區 -->
+
+
+ </div>
+<!--mid and right-->
+
+
+      </div>       <!--ALL-->
