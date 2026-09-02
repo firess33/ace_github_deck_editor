@@ -461,12 +461,12 @@ height:82%;
 .left_pic{
   position:relative;
 top:1%;
-  width:69%;
-  height:40%;
+  width:51%;
+  height:29%;
 }
 
 .left_text{
-  top:1%;
+top:-35px;
     position:relative;
   width:100%;
   height:100%;  //was57%
@@ -1140,4 +1140,69 @@ position: absolute;
   pointer-events: none;
   pointer-events: none;
   box-sizing: border-box; /* 確保寬度不會因為 padding 撐破 */
+}
+
+// tier
+.left_pic_icon {
+position:relative;
+left:38%;
+top:-8%;
+  // bottom: 10px;     /* 距離底部 10px */
+  // right: -45px;     /* 往右推出去，讓它懸掛在卡片右側（數值可依喜好微調） */
+  width: 70px;
+  height: 110px;
+  font-size: 40px;
+
+
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #110202; /* 建議加上背景色，才不會跟背后的東西疊在一起看盲 */
+  display: flex;
+  align-items: center;
+  z-index:10;
+color:#1ba14a;
+  justify-content: center;
+}
+
+
+.card_pic_icon {
+position:relative;
+left:1px;
+top:-39px;
+  // bottom: 10px;     /* 距離底部 10px */
+  // right: -45px;     /* 往右推出去，讓它懸掛在卡片右側（數值可依喜好微調） */
+  width: 29px;
+  height: 29px;
+  font-size: 20px;
+
+
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #110202; /* 建議加上背景色，才不會跟背后的東西疊在一起看盲 */
+  display: flex;
+  align-items: center;
+  z-index:10;
+color:#1ba14a;
+  justify-content: center;
+}
+
+.card_pic_icon_small{
+position:relative;
+left:1px;
+top:-30px;
+  // bottom: 10px;     /* 距離底部 10px */
+  // right: -45px;     /* 往右推出去，讓它懸掛在卡片右側（數值可依喜好微調） */
+  width: 24px;
+  height: 24px;
+  font-size: 18px;
+
+
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #110202; /* 建議加上背景色，才不會跟背后的東西疊在一起看盲 */
+  display: flex;
+  align-items: center;
+  z-index:10;
+color:#1ba14a;
+  justify-content: center;
 }

@@ -112,6 +112,7 @@ current_deck:string="";
 rename_boolean_boolean: boolean = false; ////////true才是修改中名稱
 new_entered_name:string="";
 
+
 open_selector() {
     this.selector_on = !this.selector_on;
   }
@@ -248,7 +249,7 @@ delete_delete_deck() {
    this.load_my_decks();
 }
 
-rename_rename(newName: string){
+rename_rename_save(newName: string){
 
   if (!this.current_deck || !newName.trim()) return;
 
@@ -286,10 +287,188 @@ rename_rename(newName: string){
 }
 }
 
-export_deck(){}
+export_deck(){
+  // 假設你的牌組資料結構裡有：
+  // this.current_deck_main (主牌組的卡片密碼陣列)
+  // this.current_deck_extra (額外牌組的卡片密碼陣列)
+  // this.current_deck_side (副牌組的卡片密碼陣列)
+
+  let ydkContent = '#created by your_app_name\n#main\n';
+
+  // 1. 組合 Main 牌組
+  if (this.mainDeck && this.mainDeck.length > 0) {
+    ydkContent += this.mainDeck.join('\n') + '\n';
+  }
+
+  // 2. 組合 Extra 牌組
+  ydkContent += '#extra\n';
+  if (this.fusionDeck && this.fusionDeck.length > 0) {
+    ydkContent += this.fusionDeck.join('\n') + '\n';
+  }
+
+  // 3. 組合 Side 牌組
+  ydkContent += '!side\n';
+  if (this.sideDeck && this.sideDeck.length > 0) {
+    ydkContent += this.sideDeck.join('\n') + '\n';
+  }
+
+  // 4. 建立 Blob 並觸發下載，副檔名改為 .ydk
+  const blob = new Blob([ydkContent], { type: 'text/plain;charset=utf-8' });
+
+  // 3. 產生一個暫時的下載連結
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+a.download = `${this.current_deck}.ydk`;
+
+  // 4. 自動觸發點擊，然後清理掉
+  a.click();
+  window.URL.revokeObjectURL(url);
+
+}
+
+
+get sum_tier(): number{// 1. 統計 mainDeck 裡每個卡號（字串）的出現次數
+  const cardCounts: { [cardId: string]: number } = {};
+  this.mainDeck.forEach(cardId => {
+    cardCounts[cardId] = (cardCounts[cardId] || 0) + 1;
+  });
+
+
+// 務必確認 let totalScore = 0 是寫在 getter 裡面！
+  let sum_tiers = 0;
+
+
+  // 2. 走訪不重複的卡號進行計算
+  for (const [cardId, count] of Object.entries(cardCounts)) {
+    // 從 cardPool 中找尋對應的卡片資料（假設 cardPool 裡面有 id 與 tier 欄位）
+    const cardInfo = this.cardPool.find(card => card.passcode === cardId);
+
+    if (cardInfo && cardInfo.tier) {
+      // 將字串 tier 轉成浮點數
+      const baseTier = parseFloat(cardInfo.tier);
+
+      // 3. 根據數量套用倍率規則
+      let multiplier = 1;
+      if (count === 2) {
+        multiplier = 3;
+      } else if (count >= 3) {
+        multiplier = 6;
+      }
+
+      // 4. 累加分數（基礎 tier * 倍率）
+      sum_tiers += baseTier * multiplier;
+    }
+  }
 
 
 
+
+
+
+
+
+
+  // ---在家fuse
+  const cardCounts_2_for_fuse: { [cardId: string]: number } = {};
+  this.fusionDeck.forEach(cardId => {
+    cardCounts_2_for_fuse[cardId] = (cardCounts_2_for_fuse[cardId] || 0) + 1;
+  });
+
+
+  // 2. 走訪不重複的卡號進行計算
+  for (const [cardId, count] of Object.entries(cardCounts_2_for_fuse)) {
+    // 從 cardPool 中找尋對應的卡片資料（假設 cardPool 裡面有 id 與 tier 欄位）
+    const cardInfo = this.cardPool.find(card => card.passcode === cardId);
+
+    if (cardInfo && cardInfo.tier) {
+      // 將字串 tier 轉成浮點數
+      const baseTier = parseFloat(cardInfo.tier);
+
+      // 3. 根據數量套用倍率規則
+      let multiplier = 1;
+      if (count === 2) {
+        multiplier = 3;
+      } else if (count >= 3) {
+        multiplier = 6;
+      }
+
+      // 4. 累加分數（基礎 tier * 倍率）
+      sum_tiers += baseTier * multiplier;
+    }
+  }
+
+
+  // 使用 .toFixed(1) 取到小數點後第一位
+  // 注意：.toFixed() 回傳的是「字串」，所以前面要用 parseFloat() 把它轉回數字
+  return parseFloat(sum_tiers.toFixed(1));
+
+
+}
+
+//討厭的main deck區裡面是用cardcode 陣列而不適卡池區物件 所以這裡要getter方法:
+get_main_deck_tier_icon(cardcode: string): string | number {
+  const cardInfo = this.cardPool.find(card => card.passcode === cardcode);
+  return cardInfo ? cardInfo.tier : '';
+}
+
+///主牌組區外面的 icon顏色 直接船入tier 主牌組區內則是傳入cardcode
+getTierColor(inputtier: string): string {
+
+  const tier = parseFloat(inputtier);
+
+  if (tier >= 0 && tier <= 0.5) {
+    return '#ffffff'; // 白色
+  } else if (tier > 0.5 && tier <= 1.5) {
+    return '#1bb320'; // 綠色
+  } else if (tier > 1.5 && tier <= 2.5) {
+    return '#3374b9'; // 藍色
+  }
+  else if (tier > 2.5 && tier <= 3.5) {
+    return '#afa226'; // 黃色
+  } else if (tier > 3.5 && tier <= 4.5) {
+    return '#a10c0f'; // 紅色
+  } else if (tier > 4.5 && tier <= 6.5) {
+    return '#9C27B0'; // 紫色
+  } else if (tier > 6.5 && tier <= 8.5) {
+    return '#2ebacd'; // 青色
+  } else if (tier > 8.5 && tier <= 100) {
+    return '#363136'; // 粉色
+  }
+
+  return '#ffffff';
+}
+
+getTierColor_in_deck(cardcode: string): string {
+  const cardInfo = this.cardPool.find(card => card.passcode === cardcode);
+  if (!cardInfo || cardInfo.tier === undefined) return '#333'; // 預設顏色
+
+  const tier = parseFloat(cardInfo.tier);
+
+  if (tier >= 0 && tier <= 0.5) {
+    return '#ffffff'; // 白色
+  } else if (tier > 0.5 && tier <= 1.5) {
+    return '#4CAF50'; // 綠色
+  } else if (tier > 1.5 && tier <= 2.5) {
+    return '#2196F3'; // 藍色
+  }   else if (tier > 2.5 && tier <= 3.5) {
+    return '#afa226'; // 黃色
+  } else if (tier > 3.5 && tier <= 4.5) {
+    return '#a10c0f'; // 紅色
+  } else if (tier > 4.5 && tier <= 6.5) {
+    return '#9C27B0'; // 紫色
+  } else if (tier > 6.5 && tier <= 8.5) {
+    return '#2ebacd'; // 青色
+  } else if (tier > 8.5 && tier <= 100) {
+    return '#363136'; // 粉色
+  }
+
+  return '#333';
+}
+
+sort_by_tier(){
+      this.sortMode ="tier" ;
+}
   //以上網頁版方法
 
   filter: CardFilter = {
@@ -333,7 +512,8 @@ isDeleting = false; // 新增這行
   private httpOptions: any;
 
   // 紀錄目前的排序模式：'default' 或 'random'
-  sortMode: 'default' | 'random' = 'default';
+  sortMode:string="default";
+  // sortMode: 'default' | 'random' = 'default';
   // 用來存放隨機後的結果，避免 Getter 每次都重新洗牌
   randomizedResult: any[] = [];
 
@@ -526,6 +706,15 @@ this.load_my_decks();///offline版本的my_decks
     };
 
     array.sort((a, b) => {
+
+// --- 第0層：只有當 sortmode 等於 'tier' 時才啟用 ---
+  if (this.sortMode === 'tier') {
+ // --- 第0層：大類 (tier)降序 ---
+      const tierA = b.tier || 0;
+      const tierB = a.tier || 0;
+      if (tierA !== tierB) return tierA - tierB;
+  }
+
 
 
       // --- 第一層：大類 (Monster > Magic > Trap) ---

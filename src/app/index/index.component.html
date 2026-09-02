@@ -18,13 +18,19 @@
 
     </div>
 
+
+<!-- 改用 CSS Class -->
+  <div class="left_pic_icon" [style.color]="getTierColor(hover_card_tier)">{{ hover_card_tier }}</div>
+
+
     <div class="left_text">
       <div class="text_inside">
 
         @if(hover_card_type=="monster"){
             @if(language=="en"){{{hover_card_name}} <br><br>}
-           @if(language=="cn"){ {{hover_card_cn_name}}  }
-              tier:{{hover_card_tier}}<br><br>
+           @if(language=="cn"){ {{hover_card_cn_name}}<br><br>  }
+              <!-- tier:{{hover_card_tier}}<br><br> -->
+
  <!-- <div style="position: relative; left: 20%; ">
         tier:{{hover_card_tier}}
   </div> -->
@@ -113,7 +119,7 @@ CN
 
 
 <div class="new_name_zone_css" >
-  <input type="text" class="button" style="width: 96%; cursor: text;">
+  <input type="text" class="button" style="width: 96%; cursor: text;" [(ngModel)]="new_entered_name">
 </div>
 
 
@@ -163,13 +169,13 @@ CN
       修改名稱
     </button>
   } -->
- <button  class="button"  (click)="save_deck( selected_deck_id, selected_deck_name,email,selected_deck_defaulted,mainDeck,fusionDeck,sideDeck)">儲存</button>
+ <button  class="button"  (click)="save_deck( selected_deck_id, selected_deck_name,email,selected_deck_defaulted,mainDeck,fusionDeck,sideDeck)">save</button>
 <button  class="button"  (click)="export_deck()">export</button>
 
-        <button class="button" (click)="new_new_deck()">創建牌組</button>
-                        <button class="button" (click)="copy_copy_deck()" >複製牌組</button>
-                                                <button class="button" (click)="rename_rename(new_entered_name)" >rename</button>
-        <button class="button"  (click)="delete_delete_deck()">刪除</button>
+        <button class="button" (click)="new_new_deck()">New Deck</button>
+                        <button class="button" (click)="copy_copy_deck()" >copy</button>
+                                                <button class="button" (click)="rename_rename_save(new_entered_name)" >rename</button>
+        <button class="button"  (click)="delete_delete_deck()">delete</button>
 
     <!-- <button class="button" (click)="set_as_default_deck()">設為預設</button> -->
 
@@ -226,43 +232,54 @@ style="width:45.5%; height:33%;"
 
 
 <div class="right_top_part2_box_type_1">
-          卡名:
+          name:
           <input class="right_top_part2_button" [(ngModel)]="filter.name">
           </div>
 
 
 
 <div class="right_top_part2_box_type_1">
-          效果:
+          effect:
           <input class="right_top_part2_button" [(ngModel)]="filter.description" >
 </div>
 
 
 
 
-<div class="right_top_part2_box_type_1" style="width:47%; height:33%">卡池篩選區</div>
+<!-- <div class="right_top_part2_box_type_1" style="width:47%; height:33%">卡池篩選區</div> -->
 
+
+ <div class="right_top_part2_box_type_2">
+            <label>ATK:</label>
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.atkMin">  &nbsp; ~ &nbsp;
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.atkMax">
+          </div>
+   <div class="right_top_part2_box_type_2">
+            <label>DEF:</label>
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.defMin">&nbsp; ~ &nbsp;
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.defMax">
+          </div>
 
 
 
 
 
           <div class="right_top_part2_box_type_1">
-          種類:
+          card:
           <select  class="right_top_part2_button" [(ngModel)]="filter.card_type" (change)="on_card_type_change()">
-            <option value="">全部種類(All)</option>
-            <option value="monster">怪獸卡</option>
-            <option value="magic">魔法卡</option>
-            <option value="trap">陷阱卡</option>
+            <option value="">(All)</option>
+            <option value="monster">monster</option>
+            <option value="magic">spell</option>
+            <option value="trap">trap</option>
           </select>
 </div>
 
 
 @if(filter.card_type=="magic"){
   <div class="right_top_part2_box_type_1">
-     子類:<!-- sub type: &nbsp; -->
+     subtype:<!-- sub type: &nbsp; -->
           <select  class="right_top_part2_button" [(ngModel)]="filter.sub_type" [disabled]="filter.card_type !== 'magic'">
-            <option value="">魔法卡(All)</option>
+            <option value="">spell(All)</option>
             <option value="normal_spell">Normal (通常)</option>
             <option value="quick-play">Quick-Play (速攻)</option>
             <option value="equip">Equip (裝備)</option>
@@ -274,7 +291,7 @@ style="width:45.5%; height:33%;"
 }
 @if(filter.card_type=="trap"){
   <div class="right_top_part2_box_type_1" >
-     子類:<!-- sub type: &nbsp; -->
+     subtype:<!-- sub type: &nbsp; -->
           <select  class="right_top_part2_button" [(ngModel)]="filter.sub_type" [disabled]="filter.card_type !== 'trap'">
             <option value="">陷阱卡(All)</option>
             <option value="normal_trap">Normal (通常)</option>
@@ -285,7 +302,7 @@ style="width:45.5%; height:33%;"
 }
 @if(filter.card_type=="monster" ||filter.card_type=="" ){
   <div class="right_top_part2_box_type_1"  >
-            子類:<!-- sub type: &nbsp; -->
+            subtype:<!-- sub type: &nbsp; -->
           <select  class="right_top_part2_button" [(ngModel)]="filter.sub_type" [disabled]="filter.card_type !== 'monster'">
             <option value="">怪獸卡(All)</option>
             <option value="normal">Normal (通常)</option>
@@ -304,13 +321,13 @@ style="width:45.5%; height:33%;"
           </div>
 
              <!-- <button class="right_top_part2_box_type_1" style="width:11%; height:33%;" (click)="more()">更多</button> -->
-   <button class="right_top_part2_box_type_1"  (click)="clearFilters()">清空篩選</button>
+   <button class="right_top_part2_box_type_1"  (click)="clearFilters()">clear filter</button>
 
 
 
 
   <div class="right_top_part2_box_type_1">
-          <label>屬性:</label>
+          <label>attribute:</label>
           <select  class="right_top_part2_button" [(ngModel)]="filter.attribute" [disabled]="filter.card_type !== 'monster'">
             <option value="">全部屬性 (All)</option>
             <option value="light">LIGHT (光)</option>
@@ -326,7 +343,7 @@ style="width:45.5%; height:33%;"
 
   <div class="right_top_part2_box_type_1">
 
-          <label>種族:</label>
+          <label>race:</label>
           <select  class="right_top_part2_button" [(ngModel)]="filter.race" [disabled]="filter.card_type !== 'monster'">
             <option value="">全部種族(All)</option>
                <option value="warrior">Warrior (戰士族)</option>
@@ -362,19 +379,12 @@ style="width:45.5%; height:33%;"
 
 </div>
 
-
-
-
- <div class="right_top_part2_box_type_2">
-            <label>ATK:</label>
-            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.atkMin">  &nbsp; ~ &nbsp;
-            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.atkMax">
+   <div class="right_top_part2_box_type_2"  style="width:47%">
+            <label>Card Tier(cost):</label>
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.tierMin">&nbsp; ~ &nbsp;
+            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.tierMax">
           </div>
-   <div class="right_top_part2_box_type_2">
-            <label>DEF:</label>
-            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.defMin">&nbsp; ~ &nbsp;
-            <input class="right_top_part2_button" type="number" [(ngModel)]="filter.defMax">
-          </div>
+
 
 
 
@@ -422,13 +432,13 @@ style="width:45.5%; height:33%;"
       <div class="mid_2">
 
         <div class="bar">
-          <span>主牌組: {{ mainDeck.length }} / 60</span>
+          <span>Main Deck: {{ mainDeck.length }} / 60</span>
           <!-- <span [class.over-limit]="totalTier > 100">Total Tier: {{ totalTier }} / 100</span> -->
-          <button  style="width: 80px; height: 25px; margin-left:1%" (click)=" usual_sort(mainDeck,true)">排序 </button>
-              <button  style="width: 80px; height: 25px; margin-left:1%" (click)="clear('main_deck')">清空 </button>
+          <button  style="width: 80px; height: 25px; margin-left:1%" (click)=" usual_sort(mainDeck,true)">sort </button>
+              <button  style="width: 80px; height: 25px; margin-left:1%" (click)="clear('main_deck')">clear </button>
+  <div  style=" margin-left:5%;">total tier:{{ sum_tier }}  </div>
 
-
-                  <div class="icon" style=" margin-left:63%;">
+                  <div class="icon" style=" margin-left:42%;">
     <mat-icon style="color:white; "
     matTooltip="這是卡牌效果的詳細說明"
     matTooltipPosition="above">
@@ -507,6 +517,8 @@ style="width:45.5%; height:33%;"
           <!-- <img [src]="'/pics/' +cardcode+ '.jpg'" style="width: 100%; height: 100%;"> -->
 
           <div *cdkDragPlaceholder class="cdk-drag-placeholder"></div>
+
+          <div class="card_pic_icon"  [style.color]="getTierColor_in_deck(cardcode)">{{ get_main_deck_tier_icon(cardcode) }}</div>
         </div>
       }
 
@@ -546,9 +558,9 @@ style="width:45.5%; height:33%;"
 
 
         <div class="bar">
-          <span>融合牌組: {{ fusionDeck.length }} / 15</span>
+          <span>Fusion Deck: {{ fusionDeck.length }} / 15</span>
           <!-- <span [class.over-limit]="totalTier > 100">Total Tier: {{ totalTier }} / 100</span> -->
-           <button  style="width: 80px; height: 25px; margin-left:1% " (click)="clear('extra_deck')">清空 </button>
+           <button  style="width: 80px; height: 25px; margin-left:1% " (click)="clear('extra_deck')">clear </button>
         </div>
 
 
@@ -570,6 +582,7 @@ style="width:45.5%; height:33%;"
       <img [src]="get_skin_card(null,cardCode)"   style="width: 100%; height: 100%; ">
             <!-- <img [src]="'/pics/' + cardCode + '.jpg'" style="width: 100%; height: 100%; "> -->
             <!-- <span>{{ card.name }}</span> -->
+             <div class="card_pic_icon_small"  [style.color]="getTierColor_in_deck(cardCode)">{{ get_main_deck_tier_icon(cardCode) }}</div>
                <div *cdkDragPlaceholder class="cdk-drag-placeholder"></div>
           </div>
 
@@ -579,9 +592,9 @@ style="width:45.5%; height:33%;"
 
 
         <div class="bar">
-          <span>備&nbsp;&nbsp;&nbsp;&nbsp;牌 : {{sideDeck.length }} / 15</span>
+          <span>Side&nbsp;&nbsp;Deck : {{sideDeck.length }} / 15</span>
           <!-- <span [class.over-limit]="totalTier > 100">Total Tier: {{ totalTier }} / 100</span> -->
-                      <button  style="width: 80px; height: 25px; margin-left:1%" (click)="clear('side_deck')">清空 </button>
+                      <button  style="width: 80px; height: 25px; margin-left:1%" (click)="clear('side_deck')">clear </button>
         </div>
 
 
@@ -600,6 +613,8 @@ style="width:45.5%; height:33%;"
             <!-- <img [src]="'/pics/' + cardCode + '.jpg'" style="width: 100%; height: 100%; "> -->
 
             <!-- <span class="tier-badge">{{ card.tier }}</span> -->
+
+                   <div class="card_pic_icon_small"  [style.color]="getTierColor_in_deck(cardCode)">{{ get_main_deck_tier_icon(cardCode) }}</div>
                <div *cdkDragPlaceholder class="cdk-drag-placeholder"></div>
           </div>
 
@@ -627,11 +642,12 @@ style="width:45.5%; height:33%;"
 
 
         <div class="bar">
-          <span>filtered pool:{{ filteredPool.length }}/2397</span>
-  <button  style="width: 65px; height: 25px; margin-left:1% " (click)="to_not_random()">排序 </button>
-    <button  style="width: 65px; height: 25px; margin-left:1% " (click)="go_random()">隨機  </button>
+          <span>pool:{{ filteredPool.length }}/2397</span>
+  <button  style="width: 65px; height: 25px; margin-left:1% " (click)="to_not_random()">sort </button>
+    <button  style="width: 65px; height: 25px; margin-left:1% " (click)="go_random()">random  </button>
 
-    <div class="icon" style=" margin-left:0.5%;">
+      <button  style="width: 105px; height: 25px; margin-left:1% " (click)="sort_by_tier()">sort by tier</button>
+    <!-- <div class="icon" style=" margin-left:0.5%;">
     <mat-icon style="color:white; "
     matTooltip="這是卡牌效果的詳細說明"
     matTooltipPosition="above">
@@ -639,12 +655,13 @@ style="width:45.5%; height:33%;"
   </mat-icon>
 
   <div class="show">
-   <!-- <span>排序順序:<br>種類>子類><br>屬性>種族><br>>等級>攻擊力 </span> -->
+
  <span>排序順序:<br>種類>子類> <br>等級>攻擊力 </span>
   </div>
-</div>
+</div> -->
 
         </div>
+ <!-- <span>排序順序:<br>種類>子類><br>屬性>種族><br>>等級>攻擊力 </span>?? -->
 
 
 
@@ -667,7 +684,7 @@ cdkDropList id="card_pool"
        >
 
        <img [src]="get_skin_card(card)"  [alt]="card.name" style="width: 100%; height: 100%; ">
-
+       <div class="card_pic_icon"  [style.color]="getTierColor(card.tier)">{{ card.tier }}</div>
           <!-- <img [src]="'/pics/' + card.passcode + '.jpg'" [alt]="card.name" style="width: 100%; height: 100%; "> -->
           <!-- <span>{{ card.name }}</span> -->
 
