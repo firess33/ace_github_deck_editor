@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';         // 1. 確保有引入 MatIcon
 
 
+import { PlatformLocation } from '@angular/common';
 // import pool_data from './pool_json.json'; // 根據你的檔案實際相對路徑調整
 @Component({
   selector: 'app-index',
@@ -24,7 +25,8 @@ import { MatIcon } from '@angular/material/icon';         // 1. 確保有引入 
     KeyValuePipe,
     MatIcon,         // <-- 加上這行，解決 <mat-icon> 錯誤
     DragDropModule,   // <-- 加上這行，解決 cdkDropListData 等錯誤
-    CommonModule], // <-- 必須加在這裡，HTML 才能辨認 | keyvalue ],
+    CommonModule,
+  ], // <-- 必須加在這裡，HTML 才能辨認 | keyvalue ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
 })
@@ -35,7 +37,12 @@ export class IndexComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
 
+private platformLocation = inject(PlatformLocation);
 
+  // 動態取得基礎路徑 (本地是 '/', 線上是 '/ace_github_deck_editor/')
+  get basePath(): string {
+    return this.platformLocation.getBaseHrefFromDOM();
+  }
 
 
 
@@ -809,6 +816,11 @@ this.load_my_decks();///offline版本的my_decks
   // forskin 自訂卡圖
   get_skin_card(card?: any, cardcode?: string): string {
 
+// 1. 如果卡片物件或代碼根本還沒載入（是 undefined），直接回傳預設圖，不准往下讀屬性！
+    if (!card && !cardcode) {
+        return `${this.basePath}pics/00000000.jpg`;
+    }
+
 
     // 從你原本存全部資料的陣列裡找這張卡
     const cardd = this.cardPool.find(c => c.passcode === cardcode);
@@ -823,7 +835,7 @@ this.load_my_decks();///offline版本的my_decks
       if (card.fixed_img_path == null) {
         // 把card.fixed_img_path 拼接到 img然後return
         // ✅ 使用一般的字串拼接也可以，但不要把變數也包進引號裡
-        return '/pics/' + card.passcode + '.jpg';
+  return `${this.basePath}pics/${card.passcode}.jpg`;
       }
     }
 
@@ -840,7 +852,8 @@ this.load_my_decks();///offline版本的my_decks
         // 把card.fixed_img_path 拼接到 img然後return
         return " '/skin/' + card.fixed_img_path +'.jpg'  ";
       }
-      return " '/pics/'+  card.passcode+'.jpg'  ";
+      // return " '`${this.basePath}pics/${card.passcode}.jpg`/pics/'+  card.passcode+'.jpg'  ";
+      return `${this.basePath}pics/${card.passcode}.jpg`;
     }
 
 
@@ -1022,9 +1035,9 @@ this.load_my_decks();///offline版本的my_decks
 
 
       this.hover_card_code = cardCode;
-      this.hover_pic = '/pics/' + cardCode;
+      this.hover_pic = 'pics/' + cardCode;
       if (card.fixed_img_path != null) {
-        this.hover_pic = '/skin/' + card.fixed_img_path;
+        this.hover_pic = 'skin/' + card.fixed_img_path;
         // for pic路徑
         // console.log(this.hover_pic );
       }
@@ -1059,10 +1072,10 @@ this.hover_card_tier = card.tier; // 萬一對不到就先放原值
 
   hover_on_pool(temp: boolean, card: any) {
 
-    this.hover_pic = '/pics/' + card.passcode;
+    this.hover_pic = 'pics/' + card.passcode;
 
     if (card.fixed_img_path != null) {
-      this.hover_pic = '/skin/' + card.fixed_img_path;
+      this.hover_pic = 'skin/' + card.fixed_img_path;
       // for pic路徑
       // console.log(this.hover_pic );
     }
