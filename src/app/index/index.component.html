@@ -98,8 +98,34 @@ CN
 </div> -->
 
 
- <button class="general_green" routerLink="/index">首頁 <span class="arrow"></span></button>
-     <button class="general_green" routerLink="/lobby">大廳 <span class="arrow"></span></button>
+ <!-- <button class="general_green "  style="width:10%; "   routerLink="/index">首頁 <span class="arrow"></span></button>
+     <button class="general_green" style="width:10%; "   routerLink="/lobby">大廳 <span class="arrow"></span></button> -->
+
+ <!-- 1. 準備一個隱藏的檔案選擇器，並加上 #fileInput 作為標記與 accept 限制 -->
+<input
+  type="file"
+  #fileInput
+  style="display: none"
+  accept=".ydk"
+  (change)="import_deck($event)">
+
+<!-- 2. 你的按鈕點擊時，去觸發隱藏 input 的 click -->
+<button class="general_green" style="width:50%; "  (click)="fileInput.click()">import_1 ydk</button>
+
+
+
+<!-- 加上 multiple 支援多選，accept=".ydk" 限制副檔名 -->
+<input
+  type="file"
+  #multiFileInput
+  multiple
+  style="display: none"
+  accept=".ydk"
+  (change)="import_all_deck($event)">
+
+<!-- 觸發批次匯入的按鈕 -->
+<button class="general_green" style="width:50%; "   (click)="multiFileInput.click()">import_all</button>
+
 </div>
 
 
@@ -121,6 +147,7 @@ CN
   <input type="text" class="button" style="width: 96%; cursor: text;" [(ngModel)]="new_entered_name">
 </div>
 
+<button  class="button"  (click)="export_all_deck()">export_all</button>
 
 
     <!-- <div class="user">

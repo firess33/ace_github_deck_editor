@@ -12,7 +12,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialog } from '@angular/material/dialog';
 
-
+import JSZip from 'jszip';
 import { MatIcon } from '@angular/material/icon';         // 1. 確保有引入 MatIcon
 
 
@@ -168,6 +168,11 @@ this.my_decks = []; // 每次載入前先清空，避免重複疊加
         this.my_decks.push(key);
       }
     }
+
+    // 【智能自然排序】
+  this.my_decks.sort((a, b) =>
+    a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+  );
   }
 
 new_new_deck(){
@@ -333,6 +338,249 @@ a.download = `${this.current_deck}.ydk`;
   window.URL.revokeObjectURL(url);
 
 }
+
+////下面 抓的是local storage key 裡面的main_deck 跟直接ydk不同okok 上面是mainDeck
+export_all_deck() {
+  const zip = new JSZip();
+  let deckCount = 0;
+
+  // 1. 遍歷 localStorage 裡所有的 key
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key) continue;
+
+    const rawData = localStorage.getItem(key);
+    if (!rawData) continue;
+
+    try {
+      // 2. 解析牌組資料
+      const deckData = JSON.parse(rawData);
+
+      // 【關鍵修正】對應你實際的欄位名稱：main_deck, fusion_deck, side_deck
+      if (
+        deckData &&
+        (Array.isArray(deckData.main_deck) ||
+         Array.isArray(deckData.fusion_deck) ||
+         Array.isArray(deckData.side_deck))
+      ) {
+
+        // 3. 組成單一 .ydk 的文字內容
+        let ydkContent = '#created by your_app_name\n#main\n';
+
+        if (deckData.main_deck && deckData.main_deck.length > 0) {
+          ydkContent += deckData.main_deck.join('\n') + '\n';
+        }
+
+        ydkContent += '#extra\n';
+        if (deckData.fusion_deck && deckData.fusion_deck.length > 0) {
+          ydkContent += deckData.fusion_deck.join('\n') + '\n';
+        }
+
+        ydkContent += '!side\n';
+        if (deckData.side_deck && deckData.side_deck.length > 0) {
+          ydkContent += deckData.side_deck.join('\n') + '\n';
+        }
+
+        // 4. 將 ydk 文字內容放入 zip 檔案中，檔名為 key 名稱 (例如 newdeck_10.ydk)
+        zip.file(`${key}.ydk`, ydkContent);
+        deckCount++;
+      }
+    } catch (e) {
+      // 像 uselss0 這類非牌組或解析失敗的 key 會在這裡被乾淨跳過
+      console.warn(`Key "${key}" 不是有效的牌組 JSON 資料，已跳過。`);
+    }
+  }
+
+  if (deckCount === 0) {
+    alert('localStorage 中沒有可匯出的牌組！');
+    return;
+  }
+
+  // 5. 打包產生 ZIP 並下載
+  zip.generateAsync({ type: 'blob' }).then((content) => {
+    const url = window.URL.createObjectURL(content);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'all_decks.zip';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  });
+}
+
+
+
+import_deck(event: any) {
+  const file: File = event.target.files[0];
+  if (!file) return;
+
+  // 1. 取得檔案名稱（去除 .ydk 副檔名作為 localStorage 的 key）
+  let deckKey = file.name;
+  if (deckKey.toLowerCase().endsWith('.ydk')) {
+    deckKey = deckKey.substring(0, deckKey.length - 4);
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e: any) => {
+    const fileContent = e.target.result;
+
+    const main_deck: string[] = [];
+    const fusion_deck: string[] = [];
+    const side_deck: string[] = [];
+
+    let currentSection: 'main' | 'fusion' | 'side' = 'main';
+    const lines = fileContent.split(/\r?\n/);
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+
+      if (trimmed === '#main') {
+        currentSection = 'main';
+        continue;
+      } else if (trimmed === '#extra') {
+        currentSection = 'fusion';
+        continue;
+      } else if (trimmed === '!side') {
+        currentSection = 'side';
+        continue;
+      } else if (trimmed.startsWith('#') || trimmed.startsWith('!')) {
+        continue;
+      }
+
+      if (currentSection === 'main') {
+        main_deck.push(trimmed);
+      } else if (currentSection === 'fusion') {
+        fusion_deck.push(trimmed);
+      } else if (currentSection === 'side') {
+        side_deck.push(trimmed);
+      }
+    }
+
+    const deckData = {
+      fusion_deck: fusion_deck,
+      main_deck: main_deck,
+      side_deck: side_deck
+    };
+
+    // 2. 存入 localStorage
+    localStorage.setItem(deckKey, JSON.stringify(deckData));
+
+    // 3. 【關鍵】同步更新畫面的牌組列表陣列（避免重複推入，可先檢查有沒有包含）
+    if (this.my_decks && !this.my_decks.includes(deckKey)) {
+      this.my_decks.push(deckKey);
+    }
+
+    alert(`牌組「${deckKey}」已成功匯入！`);
+
+    // 清空 input 確保重複選取同個檔案有效
+    event.target.value = '';
+  };
+
+  reader.readAsText(file);
+}
+
+// 批次匯入主函式
+async import_all_deck(event: any) {
+  const files: FileList = event.target.files;
+  if (!files || files.length === 0) return;
+
+  let successCount = 0;
+
+  // 迴圈處理每一個被選中的檔案
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    // 安全檢查：確保副檔名是 .ydk
+    if (!file.name.toLowerCase().endsWith('.ydk')) {
+      continue;
+    }
+
+    // 取得牌組名稱（去除 .ydk 副檔名）
+    let deckKey = file.name.substring(0, file.name.length - 4);
+
+    try {
+      // 透過 Promise 等待檔案讀取完成
+      const fileContent = await this.readFileAsync(file);
+
+      const main_deck: string[] = [];
+      const fusion_deck: string[] = [];
+      const side_deck: string[] = [];
+      let currentSection: 'main' | 'fusion' | 'side' = 'main';
+
+      const lines = (fileContent as string).split(/\r?\n/);
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+
+        if (trimmed === '#main') {
+          currentSection = 'main';
+          continue;
+        } else if (trimmed === '#extra') {
+          currentSection = 'fusion';
+          continue;
+        } else if (trimmed === '!side') {
+          currentSection = 'side';
+          continue;
+        } else if (trimmed.startsWith('#') || trimmed.startsWith('!')) {
+          continue;
+        }
+
+        if (currentSection === 'main') {
+          main_deck.push(trimmed);
+        } else if (currentSection === 'fusion') {
+          fusion_deck.push(trimmed);
+        } else if (currentSection === 'side') {
+          side_deck.push(trimmed);
+        }
+      }
+
+      // 包裝成物件結構
+      const deckData = {
+        fusion_deck: fusion_deck,
+        main_deck: main_deck,
+        side_deck: side_deck
+      };
+
+      // 1. 寫入 localStorage（以檔名為 Key）
+      localStorage.setItem(deckKey, JSON.stringify(deckData));
+
+      // 2. 同步更新畫面的牌組列表陣列
+      if (this.my_decks && !this.my_decks.includes(deckKey)) {
+        this.my_decks.push(deckKey);
+      }
+
+      successCount++;
+    } catch (error) {
+      console.error(`解析檔案 ${file.name} 失敗:`, error);
+    }
+  }
+
+  alert(`批次匯入完成！成功匯入了 ${successCount} 個牌組。`);
+
+  // 清空 input 確保重複選取相同檔案有效
+  event.target.value = '';
+}
+
+// 輔助方法：將 FileReader 包裝成 Promise，支援 async/await
+private readFileAsync(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e: any) => resolve(e.target.result);
+    reader.onerror = (error) => reject(error);
+    reader.readAsText(file);
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 get sum_tier(): number{// 1. 統計 mainDeck 裡每個卡號（字串）的出現次數
