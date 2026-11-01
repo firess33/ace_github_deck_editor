@@ -446,13 +446,24 @@ import_deck(event: any) {
       } else if (trimmed.startsWith('#') || trimmed.startsWith('!')) {
         continue;
       }
+// 2.【強制去 0】把帶 0 的字串轉成數字再轉回字串，徹底拔掉前面的 0（例如 "02460565" -> "2460565"）
+const cleanCardId = String(Number(trimmed));
 
-      if (currentSection === 'main') {
-        main_deck.push(trimmed);
+// 3. 用這個「無 0 格式」去 cardPool 尋找是否存在 (兩邊都轉成數字比對最保險)
+const exists = this.cardPool && this.cardPool.some(card => Number(card.passcode) === Number(cleanCardId));
+
+if (!exists) {
+  console.warn(`[Deck Import] 卡號 ${trimmed} (清理後: ${cleanCardId}) 不存在於卡池中，已自動抹除。`);
+  continue;
+}
+
+
+    if (currentSection === 'main') {
+        main_deck.push(cleanCardId); // ✅ 改成推送 cleanCardId
       } else if (currentSection === 'fusion') {
-        fusion_deck.push(trimmed);
+        fusion_deck.push(cleanCardId); // ✅ 改成推送 cleanCardId
       } else if (currentSection === 'side') {
-        side_deck.push(trimmed);
+        side_deck.push(cleanCardId); // ✅ 改成推送 cleanCardId
       }
     }
 
@@ -524,14 +535,24 @@ async import_all_deck(event: any) {
         } else if (trimmed.startsWith('#') || trimmed.startsWith('!')) {
           continue;
         }
+// 2.【強制去 0】把帶 0 的字串轉成數字再轉回字串，徹底拔掉前面的 0（例如 "02460565" -> "2460565"）
+const cleanCardId = String(Number(trimmed));
 
-        if (currentSection === 'main') {
-          main_deck.push(trimmed);
-        } else if (currentSection === 'fusion') {
-          fusion_deck.push(trimmed);
-        } else if (currentSection === 'side') {
-          side_deck.push(trimmed);
-        }
+// 3. 用這個「無 0 格式」去 cardPool 尋找是否存在 (兩邊都轉成數字比對最保險)
+const exists = this.cardPool && this.cardPool.some(card => Number(card.passcode) === Number(cleanCardId));
+
+if (!exists) {
+  console.warn(`[Deck Import] 卡號 ${trimmed} (清理後: ${cleanCardId}) 不存在於卡池中，已自動抹除。`);
+  continue;
+}
+
+       if (currentSection === 'main') {
+        main_deck.push(cleanCardId); // ✅ 改成推送 cleanCardId
+      } else if (currentSection === 'fusion') {
+        fusion_deck.push(cleanCardId); // ✅ 改成推送 cleanCardId
+      } else if (currentSection === 'side') {
+        side_deck.push(cleanCardId); // ✅ 改成推送 cleanCardId
+      }
       }
 
       // 包裝成物件結構
